@@ -1,0 +1,126 @@
+<div class="form_container">
+  <h2 *ngIf="!product">Add Product</h2>
+  <h2 *ngIf="product">Update Product</h2>
+  <form
+    [formGroup]="productForm"
+    class="form"
+    (ngSubmit)="addProduct()"
+    novalidate
+  >
+    <div class="form-control-group">
+      <mat-label class="form-control-label"
+        >Product Name<span class="mandatory-sign">*</span></mat-label
+      >
+      <mat-form-field class="full-width" appearance="outline">
+        <input matInput formControlName="name" placeholder="Enter Name" />
+        <mat-error *ngIf="productForm.get('name')?.hasError('required')">
+          Product Name is required.
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="form-control-group">
+      <span class="form-control-label"
+        >Category <span class="mandatory-sign">*</span></span
+      >
+      <mat-form-field class="full-width" appearance="outline">
+        <mat-select
+          placeholder="Select Category"
+          formControlName="category"
+          required
+        >
+          <mat-option>--Select--</mat-option>
+          <ng-container *ngFor="let option of categories">
+            <mat-option [value]="option.oid">{{ option.name }}</mat-option>
+          </ng-container>
+        </mat-select>
+        <mat-error *ngIf="productForm.get('category')?.hasError('required')">
+          Category is required.
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="form-control-group">
+      <mat-label class="form-control-label">Description</mat-label>
+      <mat-form-field class="full-width" appearance="outline">
+        <input
+          matInput
+          formControlName="description"
+          placeholder="Enter Description"
+        />
+      </mat-form-field>
+    </div>
+
+    <div class="form-control-group">
+      <mat-label class="form-control-label"
+        >Quantity<span class="mandatory-sign">*</span></mat-label
+      >
+      <mat-form-field class="full-width" appearance="outline">
+        <input
+          matInput
+          formControlName="quantity"
+          type="number"
+          placeholder="Enter Quantity"
+        />
+        <mat-error *ngIf="productForm.get('quantity')?.hasError('required')">
+          Quantity is required.
+        </mat-error>
+        <mat-error *ngIf="productForm.get('quantity')?.hasError('max')">
+          Quantity cannot exceed 10.
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="form-control-group">
+      <mat-label class="form-control-label"
+        >Unit Price<span class="mandatory-sign">*</span></mat-label
+      >
+      <mat-form-field class="full-width" appearance="outline">
+        <input
+          matInput
+          formControlName="price"
+          type="number"
+          placeholder="Enter Price"
+        />
+        <mat-error *ngIf="productForm.get('price')?.hasError('required')">
+          Price is required.
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="form-control-group">
+      <span class="form-control-label"
+        >Create Date <span class="mandatory-sign">*</span></span
+      >
+      <mat-form-field class="full-width" appearance="outline">
+        <input
+          matInput
+          [matDatepicker]="issueDate"
+          formControlName="createDate"
+          placeholder="Select Create Date"
+        />
+        <mat-datepicker-toggle
+          matIconSuffix
+          [for]="issueDate"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #issueDate></mat-datepicker>
+        <mat-error *ngIf="productForm.get('createDate')?.hasError('required')">
+          Create Date is required.
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div style="display: flex; justify-content: flex-end">
+      <button *ngIf="!product" mat-flat-button color="primary">
+        Create Product
+      </button>
+      <button
+        *ngIf="product"
+        mat-flat-button
+        color="primary"
+        (click)="onUpdateProduct()"
+      >
+        Update Product
+      </button>
+    </div>
+  </form>
+</div>
